@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+:root {
+  --color-bg-primary: #07080e;
+  --color-bg-secondary: #0d0e18;
+  --color-bg-card: rgba(255,255,255,0.03);
+  --color-bg-hover: rgba(255,255,255,0.06);
+  --color-border: rgba(255,255,255,0.07);
+  --color-border-hover: rgba(255,255,255,0.15);
+  --color-text-primary: #e2e4f0;
+  --color-text-secondary: #767a8a;
+  --color-accent: #f97316;
+  --color-accent-hover: #fb923c;
+  --color-accent-glow: rgba(249, 115, 22, 0.25);
+  --color-accent-glow-sm: rgba(249, 115, 22, 0.12);
+  --color-danger: #ef4444;
+  --color-success: #22c55e;
+  /* Glass */
+  --glass-bg: rgba(12, 14, 22, 0.72);
+  --glass-border: rgba(255,255,255,0.075);
+  --glass-blur: blur(24px) saturate(180%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.22);
+}
+
+/* === CANVAS BACKGROUND — deep-space dot grid with aurora glow === */
+.canvas-bg {
+  background-color: #07080e;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(99, 102, 241, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 70%, rgba(249, 115, 22, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 35% at 50% 10%, rgba(34, 211, 238, 0.04) 0%, transparent 50%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 26px 26px;
+  animation: auroraShift 14s ease-in-out infinite;
+}
+
+@keyframes auroraShift {
+  0%, 100% {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(99, 102, 241, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 70%, rgba(249, 115, 22, 0.04) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 35% at 50% 10%, rgba(34, 211, 238, 0.04) 0%, transparent 50%),
+      radial-gradient(circle, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  }
+  50% {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 25% 35%, rgba(99, 102, 241, 0.09) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 75% 65%, rgba(249, 115, 22, 0.05) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 35% at 55% 15%, rgba(34, 211, 238, 0.05) 0%, transparent 50%),
+      radial-gradient(circle, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  }
+}
+
+/* === NODE APPEAR ANIMATION === */
+@keyframes nodeAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.node-appear {
+  animation: nodeAppear 250ms ease-out forwards;
+}
+
+/* === SCAN LINE SWEEP ANIMATION === */
+@keyframes scanSweep {
+  0% {
+    top: -100%;
+    opacity: 0.9;
+  }
+
+  100% {
+    top: 110%;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInImage {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleInImage {
+  from {
+    transform: scale(0.92);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.image-loading-scan {
+  animation: scanSweep 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.image-fade-in {
+  animation: fadeInImage 0.3s ease-out forwards, scaleInImage 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* === COPY FLASH ANIMATION === */
+@keyframes copyFlash {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 255, 255, 0);
+    outline: 2px solid rgba(0, 255, 255, 0);
+  }
+
+  30% {
+    box-shadow: 0 0 20px 4px rgba(0, 255, 255, 0.5);
+    outline: 2px solid rgba(0, 255, 255, 0.8);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0px rgba(0, 255, 255, 0);
+    outline: 2px solid rgba(0, 255, 255, 0);
+  }
+}
+
+.copy-flash {
+  animation: copyFlash 0.4s ease-out forwards;
+}
+
+/* === COPIED LABEL ANIMATION === */
+@keyframes copiedFloatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translateY(-20px) translateX(-50%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-28px) translateX(-50%);
+  }
+}
+
+.copied-label {
+  animation: copiedFloatUp 1s ease-out forwards;
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #00ffff;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  border-radius: 4px;
+  padding: 2px 6px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+/* === CONNECTION DRAW ANIMATION === */
+@keyframes drawLine {
+  from {
+    stroke-dashoffset: 1000;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.conn-draw {
+  stroke-dasharray: 1000;
+  animation: drawLine 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* === CONNECTION PULSE LIGHT === */
+@keyframes connPulse {
+  0% {
+    stroke-dashoffset: 500;
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: -500;
+    opacity: 0;
+  }
+}
+
+.conn-pulse {
+  animation: connPulse 0.6s ease-in-out forwards;
+}
+
+/* === TOAST ANIMATION === */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px) translateX(-50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
+/* === MODAL ANIMATIONS === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* === GLASS PANEL UTILITY === */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+}
+
+/* === LIQUID GLASS TOOLBAR === */
+.glass-toolbar {
+  background: rgba(10, 11, 18, 0.85);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.6),
+    0 2px 8px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
